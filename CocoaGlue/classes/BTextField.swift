@@ -53,7 +53,7 @@ public class BTextField: UITextField, BControlProtocol  {
     
     func setValueFromComponent(value: String?) {
         modelBeingUpdated = true;
-        let value = value != nil ? value : ""
+        let value = value != nil ? value!.stringByTrimmingCharactersInSet(NSCharacterSet.whitespaceCharacterSet()) : ""
         self.object.setValue(value, forKeyPath: self.keyPath)  // primitive setters must not be used
         modelBeingUpdated = false
     }
@@ -63,7 +63,7 @@ public class BTextField: UITextField, BControlProtocol  {
         if (placeholder != nil && placeholder == true && value != nil) {
             self.placeholder = value as? String
         } else {
-            self.text = value != nil ? value as String : ""
+            self.text = value != nil ? value as! String : ""
         }
     }
     

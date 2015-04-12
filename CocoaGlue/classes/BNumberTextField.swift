@@ -37,7 +37,7 @@ public class BNumberTextField: BTextField {
         let placeholder = placeholder != nil && placeholder == true
         
         if value != nil {
-            let convertedValue = (formatter as NSNumberFormatter).stringFromNumber(value? as NSNumber)
+            let convertedValue = (formatter as! NSNumberFormatter).stringFromNumber(value as! NSNumber)
             if (convertedValue == nil && placeholder) {
                 // if conversion failed -> show placeholder if it is wished
                 self.placeholder = convertedValue
@@ -46,13 +46,13 @@ public class BNumberTextField: BTextField {
             }
         } else {
             // show placeholder if it is wished, because there is no value
-            self.text = placeholder ? (formatter as NSNumberFormatter).stringFromNumber(getDefaultValue()) : ""
+            self.placeholder = placeholder ? (formatter as! NSNumberFormatter).stringFromNumber(getDefaultValue()) : ""
         }
     }
     
     
     func numberFromString(value: String) -> NSNumber? {
-        return (formatter as NSNumberFormatter).numberFromString(value.stringByTrimmingCharactersInSet(NSCharacterSet.whitespaceCharacterSet()))?
+        return (formatter as! NSNumberFormatter).numberFromString(value.stringByTrimmingCharactersInSet(NSCharacterSet.whitespaceCharacterSet()))
     }
     
     

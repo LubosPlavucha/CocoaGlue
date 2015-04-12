@@ -10,7 +10,7 @@ public class BMonthYearPickerTextField: BTextField, UIPickerViewDelegate, UIPick
     
     
     
-    required override public init(coder: NSCoder) {
+    required public init(coder: NSCoder) {
         super.init(coder: coder)
         monthYearPicker = UIPickerView()
         monthYearPicker.delegate = self
@@ -40,14 +40,14 @@ public class BMonthYearPickerTextField: BTextField, UIPickerViewDelegate, UIPick
         let placeholder = placeholder != nil && placeholder == true
         
         if value is NSDate {
-            self.text = (formatter as NSDateFormatter).stringFromDate(value as NSDate)
-            let date = value as NSDate
+            self.text = (formatter as! NSDateFormatter).stringFromDate(value as! NSDate)
+            let date = value as! NSDate
             let cal = NSCalendar.currentCalendar()
             monthYearPicker.selectRow(cal.components(.CalendarUnitMonth, fromDate: date).month - 1, inComponent: 0, animated: true)
             monthYearPicker.selectRow(find(years, cal.components(.CalendarUnitYear, fromDate: date).year)!, inComponent: 1, animated: true)
         } else {
             // show placeholder if it is wished, because there is no value
-            self.placeholder = placeholder ? (formatter as NSDateFormatter).dateFormat : ""
+            self.placeholder = placeholder ? (formatter as! NSDateFormatter).dateFormat : ""
         }
     }
     
@@ -59,7 +59,7 @@ public class BMonthYearPickerTextField: BTextField, UIPickerViewDelegate, UIPick
     
     public func pickerView(pickerView: UIPickerView, numberOfRowsInComponent component: Int) -> Int {
         if component == 0 {
-            return (formatter as NSDateFormatter).monthSymbols.count
+            return (formatter as! NSDateFormatter).monthSymbols.count
         } else if component == 1 {
             return years.count
         }
@@ -74,7 +74,7 @@ public class BMonthYearPickerTextField: BTextField, UIPickerViewDelegate, UIPick
         label.textColor = UIColor.blackColor()
         label.font = UIFont.boldSystemFontOfSize(14)
         if component == 0 {
-            label.text = (formatter as NSDateFormatter).monthSymbols[row] as? String
+            label.text = (formatter as! NSDateFormatter).monthSymbols[row] as? String
         } else if component == 1 {
             label.text = String(years[row])
         }
@@ -100,7 +100,7 @@ public class BMonthYearPickerTextField: BTextField, UIPickerViewDelegate, UIPick
         let selectedDate = cal.dateFromComponents(dateComp)!
         
         self.object.setValue(selectedDate, forKeyPath: self.keyPath)
-        self.text = (formatter as NSDateFormatter).stringFromDate(selectedDate)
+        self.text = (formatter as! NSDateFormatter).stringFromDate(selectedDate)
         modelBeingUpdated = false;
     }
 }

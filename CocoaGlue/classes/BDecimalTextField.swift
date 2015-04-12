@@ -10,7 +10,7 @@ public class BDecimalTextField: BNumberTextField {
     
     
     override func numberFromString(value: String) -> NSNumber? {
-        let number = (formatter as NSNumberFormatter).numberFromString(value.stringByTrimmingCharactersInSet(NSCharacterSet.whitespaceCharacterSet()))
+        let number = (formatter as! NSNumberFormatter).numberFromString(value.stringByTrimmingCharactersInSet(NSCharacterSet.whitespaceCharacterSet()))
         if number != nil {
             return NSDecimalNumber(string: number?.stringValue)
         } else {
