@@ -7,6 +7,7 @@ public class BMonthYearPickerTextField: BTextField, UIPickerViewDelegate, UIPick
     
     private var monthYearPicker: UIPickerView!
     private var years: [Int] = []
+    public var listener : BDatePickerTextFieldProtocol?
     
     
     
@@ -101,7 +102,9 @@ public class BMonthYearPickerTextField: BTextField, UIPickerViewDelegate, UIPick
         
         self.object.setValue(selectedDate, forKeyPath: self.keyPath)
         self.text = (formatter as! NSDateFormatter).stringFromDate(selectedDate)
-        modelBeingUpdated = false;
+        modelBeingUpdated = false
+        
+        listener?.dateChanged()
     }
 }
 

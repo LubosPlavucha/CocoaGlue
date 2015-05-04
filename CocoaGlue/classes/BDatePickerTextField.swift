@@ -8,7 +8,9 @@ import UIKit
 public class BDatePickerTextField: BTextField {
     
     
+    public var listener : BDatePickerTextFieldProtocol?
     private var datePicker: UIDatePicker!
+    
     
     
     required public init(coder: NSCoder) {
@@ -28,6 +30,7 @@ public class BDatePickerTextField: BTextField {
         self.object.setValue(datePicker.date, forKeyPath: self.keyPath)
         self.text = (formatter as! NSDateFormatter).stringFromDate(datePicker.date)
         modelBeingUpdated = false;
+        listener?.dateChanged()
     }
     
     
