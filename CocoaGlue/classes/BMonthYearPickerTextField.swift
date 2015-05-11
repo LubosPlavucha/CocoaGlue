@@ -7,6 +7,7 @@ public class BMonthYearPickerTextField: BTextField, UIPickerViewDelegate, UIPick
     
     private var monthYearPicker: UIPickerView!
     private var years: [Int] = []
+    private let yearsCount = 20
     public var listener : BDatePickerTextFieldProtocol?
     
     
@@ -19,10 +20,10 @@ public class BMonthYearPickerTextField: BTextField, UIPickerViewDelegate, UIPick
         monthYearPicker.showsSelectionIndicator = true
         self.inputView = monthYearPicker
 
-        let currentYear = NSCalendar.currentCalendar().components(.YearCalendarUnit, fromDate: NSDate()).year
+        let currentYear = NSCalendar.currentCalendar().components(.CalendarUnitYear, fromDate: NSDate()).year
         
-        for var a = 0; a < 100; a++ {
-            years.append(currentYear + a - 10)
+        for var a = 0; a < yearsCount; a++ {
+            years.append(currentYear + a - yearsCount / 2)
         }
     }
     
@@ -106,5 +107,16 @@ public class BMonthYearPickerTextField: BTextField, UIPickerViewDelegate, UIPick
         
         listener?.dateChanged()
     }
+    
+    
+    public func setYearRange(begin: Int, end: Int) {
+        years.removeAll(keepCapacity: true)
+        var year = begin
+        while(year <= end) {
+            years.append(year)
+            year++
+        }
+    }
+    
 }
 
