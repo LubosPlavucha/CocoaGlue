@@ -38,8 +38,8 @@ public class BNumberTextField: BTextField {
         
         if value != nil {
             let convertedValue = (formatter as! NSNumberFormatter).stringFromNumber(value as! NSNumber)
-            if (convertedValue == nil && placeholder) {
-                // if conversion failed -> show placeholder if it is wished
+            if (convertedValue == nil || placeholder) {
+                // show placeholder if it is set or if conversion fails
                 self.placeholder = convertedValue
             } else {
                 self.text = convertedValue
