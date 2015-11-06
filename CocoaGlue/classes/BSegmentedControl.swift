@@ -75,13 +75,13 @@ public class BSegmentedControl: UISegmentedControl, BControlProtocol {
     }
     
     
-    override public func observeValueForKeyPath(keyPath: String, ofObject object: AnyObject, change: [NSObject : AnyObject], context: UnsafeMutablePointer<Void>) {
+    public override func observeValueForKeyPath(keyPath: String?, ofObject object: AnyObject?, change: [String : AnyObject]?, context: UnsafeMutablePointer<Void>) {
         
         if modelBeingUpdated {
             return
         }
         if context == &segmentedControlContext && self.object.isEqual(object) {
-            setValueFromModel(change[NSKeyValueChangeNewKey])
+            setValueFromModel(change?[NSKeyValueChangeNewKey])
         }
     }
 

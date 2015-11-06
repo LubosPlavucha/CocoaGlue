@@ -23,7 +23,7 @@ public class BSwitch: UISwitch, BControlProtocol {
         
         self.object = object
         self.keyPath = keyPath
-        self.object.addObserver(self, forKeyPath: keyPath, options: .New | .Old, context: UnsafeMutablePointer<()>())
+        self.object.addObserver(self, forKeyPath: keyPath, options: [.New, .Old], context: UnsafeMutablePointer<()>())
         
         // set value immediately when being bound
         setValueFromModel(object.valueForKeyPath(keyPath) as? Bool)
@@ -60,10 +60,10 @@ public class BSwitch: UISwitch, BControlProtocol {
     }
     
     
-    override public func observeValueForKeyPath(keyPath: String, ofObject object: AnyObject, change: [NSObject : AnyObject], context: UnsafeMutablePointer<Void>) {
+    override public func observeValueForKeyPath(keyPath: String?, ofObject object: AnyObject?, change: [String : AnyObject]?, context: UnsafeMutablePointer<Void>) {
         
         if self.object.isEqual(object) {
-            setValueFromModel(change[NSKeyValueChangeNewKey] as? NSNumber)
+            setValueFromModel(change?[NSKeyValueChangeNewKey] as? NSNumber)
         }
     }
     

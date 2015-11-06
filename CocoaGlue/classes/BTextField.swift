@@ -28,7 +28,7 @@ public class BTextField: UITextField, BControlProtocol  {
         // set value immediately when being bound
         setValueFromModel(object.valueForKeyPath(keyPath), placeholder: placeholder)
         
-        self.object.addObserver(self, forKeyPath: keyPath, options: .New | .Old, context: UnsafeMutablePointer<()>())
+        self.object.addObserver(self, forKeyPath: keyPath, options: [.New, .Old], context: UnsafeMutablePointer<()>())
         self.addTarget(self, action: Selector("valueChanged"), forControlEvents: .EditingChanged)
         self.bounded = true 
         
@@ -68,13 +68,13 @@ public class BTextField: UITextField, BControlProtocol  {
     }
     
     
-    override public func observeValueForKeyPath(keyPath: String, ofObject object: AnyObject, change: [NSObject : AnyObject], context: UnsafeMutablePointer<Void>) {
+    override public func observeValueForKeyPath(keyPath: String?, ofObject object: AnyObject?, change: [String : AnyObject]?, context: UnsafeMutablePointer<Void>) {
         
         if modelBeingUpdated {
             return
         }
         if self.object.isEqual(object) {
-            setValueFromModel(change[NSKeyValueChangeNewKey])
+            setValueFromModel(change?[NSKeyValueChangeNewKey])
         }
     }
     

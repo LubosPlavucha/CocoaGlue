@@ -13,7 +13,7 @@ public class BDatePickerTextField: BTextField {
     
     
     
-    required public init(coder: NSCoder) {
+    public required init?(coder: NSCoder) {
         super.init(coder: coder)
         datePicker = UIDatePicker()
         datePicker.datePickerMode = .Date;

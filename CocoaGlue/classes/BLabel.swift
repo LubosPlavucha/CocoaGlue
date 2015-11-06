@@ -23,7 +23,7 @@ public class BLabel: UILabel, BControlProtocol {
         
         self.object = object
         self.keyPath = keyPath
-        self.object.addObserver(self, forKeyPath: keyPath, options: .New | .Old, context: UnsafeMutablePointer<()>())
+        self.object.addObserver(self, forKeyPath: keyPath, options: [.New, .Old], context: UnsafeMutablePointer<()>())
         
         // set value immediately when being bound
         setValueFromModel(self.object.valueForKeyPath(keyPath) as? String)
@@ -52,10 +52,10 @@ public class BLabel: UILabel, BControlProtocol {
 //    }
     
     
-    override public func observeValueForKeyPath(keyPath: String, ofObject object: AnyObject, change: [NSObject : AnyObject], context: UnsafeMutablePointer<Void>) {
+    override public func observeValueForKeyPath(keyPath: String?, ofObject object: AnyObject?, change: [String : AnyObject]?, context: UnsafeMutablePointer<Void>) {
         
         if self.object.isEqual(object) {
-            setValueFromModel(change[NSKeyValueChangeNewKey] as? String)
+            setValueFromModel(change?[NSKeyValueChangeNewKey] as? String)
         }
     }
 

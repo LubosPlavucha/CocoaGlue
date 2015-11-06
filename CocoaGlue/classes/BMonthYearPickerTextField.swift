@@ -12,7 +12,7 @@ public class BMonthYearPickerTextField: BTextField, UIPickerViewDelegate, UIPick
     
     
     
-    required public init(coder: NSCoder) {
+    required public init?(coder: NSCoder) {
         super.init(coder: coder)
         monthYearPicker = UIPickerView()
         monthYearPicker.delegate = self
@@ -20,7 +20,7 @@ public class BMonthYearPickerTextField: BTextField, UIPickerViewDelegate, UIPick
         monthYearPicker.showsSelectionIndicator = true
         self.inputView = monthYearPicker
 
-        let currentYear = NSCalendar.currentCalendar().components(.CalendarUnitYear, fromDate: NSDate()).year
+        let currentYear = NSCalendar.currentCalendar().components(.Year, fromDate: NSDate()).year
         
         for var a = 0; a < yearsCount; a++ {
             years.append(currentYear + a - yearsCount / 2)
@@ -45,8 +45,8 @@ public class BMonthYearPickerTextField: BTextField, UIPickerViewDelegate, UIPick
             self.text = (formatter as! NSDateFormatter).stringFromDate(value as! NSDate)
             let date = value as! NSDate
             let cal = NSCalendar.currentCalendar()
-            monthYearPicker.selectRow(cal.components(.CalendarUnitMonth, fromDate: date).month - 1, inComponent: 0, animated: true)
-            monthYearPicker.selectRow(find(years, cal.components(.CalendarUnitYear, fromDate: date).year)!, inComponent: 1, animated: true)
+            monthYearPicker.selectRow(cal.components(.Month, fromDate: date).month - 1, inComponent: 0, animated: true)
+            monthYearPicker.selectRow(years.indexOf(cal.components(.Year, fromDate: date).year)!, inComponent: 1, animated: true)
         } else {
             // show placeholder if it is wished, because there is no value
             self.placeholder = placeholder ? (formatter as! NSDateFormatter).dateFormat : ""
@@ -71,7 +71,7 @@ public class BMonthYearPickerTextField: BTextField, UIPickerViewDelegate, UIPick
     
     public func pickerView(pickerView: UIPickerView, viewForRow row: Int, forComponent component: Int, reusingView view: UIView!) -> UIView {
         
-        var label = UILabel()
+        let label = UILabel()
         label.backgroundColor = UIColor.clearColor()
         label.textColor = UIColor.blackColor()
         label.font = UIFont.boldSystemFontOfSize(14)
@@ -92,7 +92,7 @@ public class BMonthYearPickerTextField: BTextField, UIPickerViewDelegate, UIPick
         modelBeingUpdated = true;
         
         let cal = NSCalendar.currentCalendar()
-        var dateComp = cal.components(.CalendarUnitYear | .CalendarUnitMonth | .CalendarUnitDay | .CalendarUnitHour | .CalendarUnitMinute | .CalendarUnitSecond, fromDate: NSDate())
+        let dateComp = cal.components([.Year, .Month, .Day, .Hour, .Minute, .Second], fromDate: NSDate())
         dateComp.year = years[monthYearPicker.selectedRowInComponent(1)]
         dateComp.month = monthYearPicker.selectedRowInComponent(0) + 1
         dateComp.day = 1
