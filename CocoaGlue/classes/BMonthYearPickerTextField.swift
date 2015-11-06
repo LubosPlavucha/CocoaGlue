@@ -69,14 +69,14 @@ public class BMonthYearPickerTextField: BTextField, UIPickerViewDelegate, UIPick
     }
     
     
-    public func pickerView(pickerView: UIPickerView, viewForRow row: Int, forComponent component: Int, reusingView view: UIView!) -> UIView {
+    public func pickerView(pickerView: UIPickerView, viewForRow row: Int, forComponent component: Int, reusingView view: UIView?) -> UIView {
         
         let label = UILabel()
         label.backgroundColor = UIColor.clearColor()
         label.textColor = UIColor.blackColor()
         label.font = UIFont.boldSystemFontOfSize(14)
         if component == 0 {
-            label.text = (formatter as! NSDateFormatter).monthSymbols[row] as? String
+            label.text = (formatter as! NSDateFormatter).monthSymbols[row]
         } else if component == 1 {
             label.text = String(years[row])
         }
