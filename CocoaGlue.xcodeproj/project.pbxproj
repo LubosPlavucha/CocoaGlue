@@ -16,7 +16,6 @@
 		6B4EBF741A9BDE640088D730 /* BSegmentedControl.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6B4EBF651A9BDE640088D730 /* BSegmentedControl.swift */; };
 		6B4EBF761A9BDE640088D730 /* BSwitch.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6B4EBF661A9BDE640088D730 /* BSwitch.swift */; };
 		6B4EBF781A9BDE640088D730 /* BTextField.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6B4EBF671A9BDE640088D730 /* BTextField.swift */; };
-		6B4EBF831A9BDED40088D730 /* Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 6B4EBF811A9BDED40088D730 /* Info.plist */; };
 		6B7D2E101AF804580000CB24 /* BDatePickerTextFieldProtocol.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6B7D2E0F1AF804580000CB24 /* BDatePickerTextFieldProtocol.swift */; };
 /* End PBXBuildFile section */
 
@@ -127,7 +126,7 @@
 			isa = PBXProject;
 			attributes = {
 				LastSwiftUpdateCheck = 0710;
-				LastUpgradeCheck = 0610;
+				LastUpgradeCheck = 0710;
 				ORGANIZATIONNAME = "lubos plavucha";
 				TargetAttributes = {
 					6B4958E21A4CB09900C113E2 = {
@@ -158,7 +157,6 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				6B4EBF831A9BDED40088D730 /* Info.plist in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -206,6 +204,7 @@
 				COPY_PHASE_STRIP = NO;
 				CURRENT_PROJECT_VERSION = 1;
 				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				ENABLE_TESTABILITY = YES;
 				GCC_C_LANGUAGE_STANDARD = gnu99;
 				GCC_DYNAMIC_NO_PIC = NO;
 				GCC_OPTIMIZATION_LEVEL = 0;
@@ -281,6 +280,7 @@
 				INFOPLIST_FILE = CocoaGlue/Info.plist;
 				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
+				PRODUCT_BUNDLE_IDENTIFIER = "com.lubosplavucha.$(PRODUCT_NAME:rfc1034identifier)";
 				PRODUCT_NAME = CocoaGlue;
 				SKIP_INSTALL = YES;
 			};
@@ -297,6 +297,7 @@
 				INFOPLIST_FILE = CocoaGlue/Info.plist;
 				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
+				PRODUCT_BUNDLE_IDENTIFIER = "com.lubosplavucha.$(PRODUCT_NAME:rfc1034identifier)";
 				PRODUCT_NAME = CocoaGlue;
 				SKIP_INSTALL = YES;
 			};
