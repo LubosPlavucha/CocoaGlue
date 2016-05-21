@@ -28,8 +28,8 @@ public class BTextField: UITextField, BControlProtocol  {
         // set value immediately when being bound
         setValueFromModel(object.valueForKeyPath(keyPath), placeholder: placeholder)
         
-        self.object.addObserver(self, forKeyPath: keyPath, options: [.New, .Old], context: UnsafeMutablePointer<()>())
-        self.addTarget(self, action: Selector("valueChanged"), forControlEvents: .EditingChanged)
+        self.object.addObserver(self, forKeyPath: keyPath, options: [.New, .Old], context: nil)
+        self.addTarget(self, action: #selector(BTextField.valueChanged), forControlEvents: .EditingChanged)
         self.bounded = true 
         
         return self
@@ -40,7 +40,7 @@ public class BTextField: UITextField, BControlProtocol  {
         // ui component needs to be unbound before managed object becomes invalid
         if bounded {
             self.object.removeObserver(self, forKeyPath: keyPath)
-            self.removeTarget(self, action: Selector("valueChanged"), forControlEvents: .ValueChanged)
+            self.removeTarget(self, action: #selector(BTextField.valueChanged), forControlEvents: .ValueChanged)
             bounded = false
         }
     }

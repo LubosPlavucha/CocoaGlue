@@ -23,7 +23,7 @@ public class BLabel: UILabel, BControlProtocol {
         
         self.object = object
         self.keyPath = keyPath
-        self.object.addObserver(self, forKeyPath: keyPath, options: [.New, .Old], context: UnsafeMutablePointer<()>())
+        self.object.addObserver(self, forKeyPath: keyPath, options: [.New, .Old], context: nil)
         
         // set value immediately when being bound
         setValueFromModel(self.object.valueForKeyPath(keyPath) as? String)

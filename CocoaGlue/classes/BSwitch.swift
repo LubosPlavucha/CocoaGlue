@@ -23,12 +23,12 @@ public class BSwitch: UISwitch, BControlProtocol {
         
         self.object = object
         self.keyPath = keyPath
-        self.object.addObserver(self, forKeyPath: keyPath, options: [.New, .Old], context: UnsafeMutablePointer<()>())
+        self.object.addObserver(self, forKeyPath: keyPath, options: [.New, .Old], context: nil)
         
         // set value immediately when being bound
         setValueFromModel(object.valueForKeyPath(keyPath) as? Bool)
         
-        self.addTarget(self, action: Selector("valueChanged"), forControlEvents: .ValueChanged)
+        self.addTarget(self, action: #selector(BSwitch.valueChanged), forControlEvents: .ValueChanged)
         self.bounded = true
         
         return self
@@ -38,7 +38,7 @@ public class BSwitch: UISwitch, BControlProtocol {
     public func unbind() {
         // ui component needs to be unbound
         if bounded {
-            self.removeTarget(self, action: Selector("valueChanged"), forControlEvents: .ValueChanged)
+            self.removeTarget(self, action: #selector(BSwitch.valueChanged), forControlEvents: .ValueChanged)
             self.object.removeObserver(self, forKeyPath: keyPath)
             bounded = false
         }

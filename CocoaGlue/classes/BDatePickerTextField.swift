@@ -17,7 +17,7 @@ public class BDatePickerTextField: BTextField {
         super.init(coder: coder)
         datePicker = UIDatePicker()
         datePicker.datePickerMode = .Date;
-        datePicker.addTarget(self, action: Selector("dateChanged"), forControlEvents: .ValueChanged)
+        datePicker.addTarget(self, action: #selector(BDatePickerTextField.dateChanged), forControlEvents: .ValueChanged)
         self.inputView = datePicker
     }
     

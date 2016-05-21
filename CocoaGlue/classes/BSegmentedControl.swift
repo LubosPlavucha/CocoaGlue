@@ -34,7 +34,7 @@ public class BSegmentedControl: UISegmentedControl, BControlProtocol {
         setValueFromModel(self.object.valueForKeyPath(keyPath))
         
         self.object.addObserver(self, forKeyPath: keyPath, options: .New, context: &segmentedControlContext)
-        self.addTarget(self, action: Selector("valueChanged"), forControlEvents: .ValueChanged)
+        self.addTarget(self, action: #selector(BSegmentedControl.valueChanged), forControlEvents: .ValueChanged)
         self.bounded = true
         return self
     }
@@ -44,7 +44,7 @@ public class BSegmentedControl: UISegmentedControl, BControlProtocol {
         // ui component needs to be unbound before managed object becomes invalid
         if bounded {
             self.object.removeObserver(self, forKeyPath: keyPath)
-            self.removeTarget(self, action: Selector("valueChanged"), forControlEvents: .ValueChanged)
+            self.removeTarget(self, action: #selector(BSegmentedControl.valueChanged), forControlEvents: .ValueChanged)
             bounded = false
         }
     }

@@ -22,8 +22,8 @@ public class BMonthYearPickerTextField: BTextField, UIPickerViewDelegate, UIPick
 
         let currentYear = NSCalendar.currentCalendar().components(.Year, fromDate: NSDate()).year
         
-        for var a = 0; a < yearsCount; a++ {
-            years.append(currentYear + a - yearsCount / 2)
+        for idx in 0...yearsCount {
+            years.append(currentYear + idx - yearsCount / 2)
         }
     }
     
@@ -114,7 +114,7 @@ public class BMonthYearPickerTextField: BTextField, UIPickerViewDelegate, UIPick
         var year = begin
         while(year <= end) {
             years.append(year)
-            year++
+            year += 1
         }
     }
     
