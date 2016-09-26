@@ -3,10 +3,21 @@
 //
 
 import Foundation
+import UIKit
 
 open class BDecimalTextField: BNumberTextField {
     
 
+    
+    override init(frame: CGRect) {
+        super.init(frame: frame)
+        self.keyboardType = .decimalPad
+    }
+    
+    required public init?(coder: NSCoder) {
+        super.init(coder: coder)
+        self.keyboardType = .decimalPad
+    }
     
     
     override func numberFromString(_ value: String) -> NSNumber? {

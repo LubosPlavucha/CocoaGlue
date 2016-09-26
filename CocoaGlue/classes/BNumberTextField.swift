@@ -8,6 +8,15 @@ import UIKit
 open class BNumberTextField: BTextField {
     
     
+    override init(frame: CGRect) {
+        super.init(frame: frame)
+        self.keyboardType = .numberPad
+    }
+    
+    required public init?(coder: NSCoder) {
+        super.init(coder: coder)
+        self.keyboardType = .numberPad
+    }
     
     
     override func setValueFromComponent(_ value: String?) {
