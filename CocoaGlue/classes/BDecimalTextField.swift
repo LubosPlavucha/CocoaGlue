@@ -7,15 +7,10 @@ import UIKit
 
 open class BDecimalTextField: BNumberTextField {
     
-
     
-    override init(frame: CGRect) {
-        super.init(frame: frame)
-        self.keyboardType = .decimalPad
-    }
     
-    required public init?(coder: NSCoder) {
-        super.init(coder: coder)
+    override func initProperties() {
+        super.initProperties()
         self.keyboardType = .decimalPad
     }
     

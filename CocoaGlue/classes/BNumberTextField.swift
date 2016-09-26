@@ -8,14 +8,41 @@ import UIKit
 open class BNumberTextField: BTextField {
     
     
-    override init(frame: CGRect) {
-        super.init(frame: frame)
+    
+    override func initProperties() {
         self.keyboardType = .numberPad
+        
+        // add toolbar with custom buttons
+        let keyboardDoneButtonView = UIToolbar.init()
+        keyboardDoneButtonView.sizeToFit()
+        
+        // add Minus Button
+        let minusButtonFont = UIFont.boldSystemFont(ofSize: 22)
+        let minusButton = UIBarButtonItem(title: "-", style: .plain, target: self, action: #selector(minusPressed))
+        minusButton.setTitleTextAttributes([NSFontAttributeName: minusButtonFont], for: .normal)
+        
+        let spaceButton = UIBarButtonItem.init(barButtonSystemItem: .flexibleSpace, target: nil, action: nil)
+        
+        // add Done button
+        let doneButton = UIBarButtonItem.init(barButtonSystemItem: .done, target: self, action: #selector(done))    
+        
+        keyboardDoneButtonView.items = [minusButton, spaceButton, doneButton]
+        self.inputAccessoryView = keyboardDoneButtonView
     }
     
-    required public init?(coder: NSCoder) {
-        super.init(coder: coder)
-        self.keyboardType = .numberPad
+    
+    func minusPressed() {
+        if self.text == nil {
+            self.text = "-"
+        } else if !self.text!.contains("-") {
+            self.text = "-" + self.text!
+        }
+        valueChanged()  // must call, because not called automatically
+    }
+    
+    
+    func done() {
+        self.endEditing(true)
     }
     
     

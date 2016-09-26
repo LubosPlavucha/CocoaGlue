@@ -15,6 +15,20 @@ open class BTextField: UITextField, BControlProtocol  {
     var modelBeingUpdated = false
     
     
+    override init(frame: CGRect) {
+        super.init(frame: frame)
+        initProperties()
+    }
+    
+    required public init?(coder: NSCoder) {
+        super.init(coder: coder)
+        initProperties()
+    }
+    
+    
+    func initProperties() {
+    }
+    
     
     open func bind(_ object: NSObject, keyPath: String, formatter: Formatter? = nil, placeholder: Bool? = false) -> BTextField {
         
@@ -25,11 +39,16 @@ open class BTextField: UITextField, BControlProtocol  {
         self.object = object
         self.keyPath = keyPath
         self.formatter = formatter
+        
         // set value immediately when being bound
         setValueFromModel(object.value(forKeyPath: keyPath) as AnyObject?, placeholder: placeholder)
         
+        // add listener for changes from the model
         self.object.addObserver(self, forKeyPath: keyPath, options: [.new, .old], context: nil)
+        
+        // add listener for changes from the user
         self.addTarget(self, action: #selector(BTextField.valueChanged), for: .editingChanged)
+        
         self.bounded = true 
         
         return self
