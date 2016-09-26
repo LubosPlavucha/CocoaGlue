@@ -4,13 +4,13 @@
 
 import Foundation
 
-public class BDecimalTextField: BNumberTextField {
+open class BDecimalTextField: BNumberTextField {
     
 
     
     
-    override func numberFromString(value: String) -> NSNumber? {
-        let number = (formatter as! NSNumberFormatter).numberFromString(value.stringByTrimmingCharactersInSet(NSCharacterSet.whitespaceCharacterSet()))
+    override func numberFromString(_ value: String) -> NSNumber? {
+        let number = (formatter as! NumberFormatter).number(from: value.trimmingCharacters(in: CharacterSet.whitespaces))
         if number != nil {
             return NSDecimalNumber(string: number?.stringValue)
         } else {
@@ -20,6 +20,6 @@ public class BDecimalTextField: BNumberTextField {
     
     
     override func getDefaultValue() -> NSNumber {
-        return NSDecimalNumber.zero()
+        return NSDecimalNumber.zero
     }
 }

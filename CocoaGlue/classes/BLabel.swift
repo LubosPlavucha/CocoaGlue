@@ -6,16 +6,16 @@ import Foundation
 import UIKit
 
 
-public class BLabel: UILabel, BControlProtocol {
+open class BLabel: UILabel, BControlProtocol {
 
     
-    private var object: NSObject!
-    private var keyPath: String!
-    private var bounded = false;
+    fileprivate var object: NSObject!
+    fileprivate var keyPath: String!
+    fileprivate var bounded = false;
     
     
     
-    public func bind(object: NSObject, keyPath: String) -> BLabel {
+    open func bind(_ object: NSObject, keyPath: String) -> BLabel {
         
         if bounded {
             return self
@@ -23,17 +23,17 @@ public class BLabel: UILabel, BControlProtocol {
         
         self.object = object
         self.keyPath = keyPath
-        self.object.addObserver(self, forKeyPath: keyPath, options: [.New, .Old], context: nil)
+        self.object.addObserver(self, forKeyPath: keyPath, options: [.new, .old], context: nil)
         
         // set value immediately when being bound
-        setValueFromModel(self.object.valueForKeyPath(keyPath) as? String)
+        setValueFromModel(self.object.value(forKeyPath: keyPath) as? String)
         self.bounded = true
         
         return self
     }
     
     
-    public func unbind() {
+    open func unbind() {
         // ui component needs to be unbound before managed object becomes invalid
         if bounded {
             self.object.removeObserver(self, forKeyPath: keyPath)
@@ -42,7 +42,7 @@ public class BLabel: UILabel, BControlProtocol {
     }
     
     
-    func setValueFromModel(value: String?) {
+    func setValueFromModel(_ value: String?) {
         self.text = value != nil ? value : ""
     }
     
@@ -52,10 +52,10 @@ public class BLabel: UILabel, BControlProtocol {
 //    }
     
     
-    override public func observeValueForKeyPath(keyPath: String?, ofObject object: AnyObject?, change: [String : AnyObject]?, context: UnsafeMutablePointer<Void>) {
+    override open func observeValue(forKeyPath keyPath: String?, of object: Any?, change: [NSKeyValueChangeKey : Any]?, context: UnsafeMutableRawPointer?) {
         
         if self.object.isEqual(object) {
-            setValueFromModel(change?[NSKeyValueChangeNewKey] as? String)
+            setValueFromModel(change?[NSKeyValueChangeKey.newKey] as? String)
         }
     }
 

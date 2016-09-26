@@ -2,13 +2,13 @@
 import Foundation
 import UIKit
 
-public class BMonthYearPickerTextField: BTextField, UIPickerViewDelegate, UIPickerViewDataSource {
+open class BMonthYearPickerTextField: BTextField, UIPickerViewDelegate, UIPickerViewDataSource {
     
     
-    private var monthYearPicker: UIPickerView!
-    private var years: [Int] = []
-    private let yearsCount = 20
-    public var listener : BDatePickerTextFieldProtocol?
+    fileprivate var monthYearPicker: UIPickerView!
+    fileprivate var years: [Int] = []
+    fileprivate let yearsCount = 20
+    open var listener : BDatePickerTextFieldProtocol?
     
     
     
@@ -20,21 +20,21 @@ public class BMonthYearPickerTextField: BTextField, UIPickerViewDelegate, UIPick
         monthYearPicker.showsSelectionIndicator = true
         self.inputView = monthYearPicker
 
-        let currentYear = NSCalendar.currentCalendar().components(.Year, fromDate: NSDate()).year
+        let currentYear = (Calendar.current as NSCalendar).components(.year, from: Date()).year
         
         for idx in 0...yearsCount {
-            years.append(currentYear + idx - yearsCount / 2)
+            years.append(currentYear! + idx - yearsCount / 2)
         }
     }
     
     
-    override func setValueFromComponent(value: String?) {
+    override func setValueFromComponent(_ value: String?) {
         // should not be implemented - text field change event should do nothing, because date picker takes control
     }
     
     
-    override func setValueFromModel(value: AnyObject?, placeholder: Bool? = false) {
-        assert(formatter != nil && formatter is NSDateFormatter)
+    override func setValueFromModel(_ value: AnyObject?, placeholder: Bool? = false) {
+        assert(formatter != nil && formatter is DateFormatter)
         
         if modelBeingUpdated {
             return
@@ -42,26 +42,26 @@ public class BMonthYearPickerTextField: BTextField, UIPickerViewDelegate, UIPick
         let placeholder = placeholder != nil && placeholder == true
         
         if value is NSDate {
-            self.text = (formatter as! NSDateFormatter).stringFromDate(value as! NSDate)
-            let date = value as! NSDate
-            let cal = NSCalendar.currentCalendar()
-            monthYearPicker.selectRow(cal.components(.Month, fromDate: date).month - 1, inComponent: 0, animated: true)
-            monthYearPicker.selectRow(years.indexOf(cal.components(.Year, fromDate: date).year)!, inComponent: 1, animated: true)
+            self.text = (formatter as! DateFormatter).string(from: value as! Date)
+            let date = value as! Date
+            let cal = Calendar.current
+            monthYearPicker.selectRow(cal.dateComponents([.month], from: date).month! - 1, inComponent: 0, animated: true)
+            monthYearPicker.selectRow(years.index(of: cal.dateComponents([.year], from: date).year!)!, inComponent: 1, animated: true)
         } else {
             // show placeholder if it is wished, because there is no value
-            self.placeholder = placeholder ? (formatter as! NSDateFormatter).dateFormat : ""
+            self.placeholder = placeholder ? (formatter as! DateFormatter).dateFormat : ""
         }
     }
     
     
-    public func numberOfComponentsInPickerView(pickerView: UIPickerView) -> Int {
+    open func numberOfComponents(in pickerView: UIPickerView) -> Int {
         return 2
     }
     
     
-    public func pickerView(pickerView: UIPickerView, numberOfRowsInComponent component: Int) -> Int {
+    open func pickerView(_ pickerView: UIPickerView, numberOfRowsInComponent component: Int) -> Int {
         if component == 0 {
-            return (formatter as! NSDateFormatter).monthSymbols.count
+            return (formatter as! DateFormatter).monthSymbols.count
         } else if component == 1 {
             return years.count
         }
@@ -69,14 +69,14 @@ public class BMonthYearPickerTextField: BTextField, UIPickerViewDelegate, UIPick
     }
     
     
-    public func pickerView(pickerView: UIPickerView, viewForRow row: Int, forComponent component: Int, reusingView view: UIView?) -> UIView {
+    open func pickerView(_ pickerView: UIPickerView, viewForRow row: Int, forComponent component: Int, reusing view: UIView?) -> UIView {
         
         let label = UILabel()
-        label.backgroundColor = UIColor.clearColor()
-        label.textColor = UIColor.blackColor()
-        label.font = UIFont.boldSystemFontOfSize(14)
+        label.backgroundColor = UIColor.clear
+        label.textColor = UIColor.black
+        label.font = UIFont.boldSystemFont(ofSize: 14)
         if component == 0 {
-            label.text = (formatter as! NSDateFormatter).monthSymbols[row]
+            label.text = (formatter as! DateFormatter).monthSymbols[row]
         } else if component == 1 {
             label.text = String(years[row])
         }
@@ -85,32 +85,32 @@ public class BMonthYearPickerTextField: BTextField, UIPickerViewDelegate, UIPick
     }
     
     
-    public func pickerView(pickerView: UIPickerView, didSelectRow row: Int, inComponent component: Int) {
-        assert(formatter != nil && formatter is NSDateFormatter)
+    open func pickerView(_ pickerView: UIPickerView, didSelectRow row: Int, inComponent component: Int) {
+        assert(formatter != nil && formatter is DateFormatter)
         
         // sets value from UIPicker both to entity and text field
         modelBeingUpdated = true;
         
-        let cal = NSCalendar.currentCalendar()
-        let dateComp = cal.components([.Year, .Month, .Day, .Hour, .Minute, .Second], fromDate: NSDate())
-        dateComp.year = years[monthYearPicker.selectedRowInComponent(1)]
-        dateComp.month = monthYearPicker.selectedRowInComponent(0) + 1
+        let cal = Calendar.current
+        var dateComp = (cal as NSCalendar).components([.year, .month, .day, .hour, .minute, .second], from: Date())
+        dateComp.year = years[monthYearPicker.selectedRow(inComponent: 1)]
+        dateComp.month = monthYearPicker.selectedRow(inComponent: 0) + 1
         dateComp.day = 1
         dateComp.hour = 0
         dateComp.minute = 0
         dateComp.second = 0
-        let selectedDate = cal.dateFromComponents(dateComp)!
+        let selectedDate = cal.date(from: dateComp)!
         
         self.object.setValue(selectedDate, forKeyPath: self.keyPath)
-        self.text = (formatter as! NSDateFormatter).stringFromDate(selectedDate)
+        self.text = (formatter as! DateFormatter).string(from: selectedDate)
         modelBeingUpdated = false
         
         listener?.dateChanged()
     }
     
     
-    public func setYearRange(begin: Int, end: Int) {
-        years.removeAll(keepCapacity: true)
+    open func setYearRange(_ begin: Int, end: Int) {
+        years.removeAll(keepingCapacity: true)
         var year = begin
         while(year <= end) {
             years.append(year)

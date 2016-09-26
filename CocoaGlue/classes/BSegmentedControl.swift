@@ -9,18 +9,18 @@ import UIKit
 private var segmentedControlContext = 0
 
 
-public class BSegmentedControl: UISegmentedControl, BControlProtocol {
+open class BSegmentedControl: UISegmentedControl, BControlProtocol {
     
     
-    private var object: NSObject!
-    private var keyPath: String!
-    private var values = [Int: AnyObject]()
-    private var bounded = false;
+    fileprivate var object: NSObject!
+    fileprivate var keyPath: String!
+    fileprivate var values = [Int: AnyObject]()
+    fileprivate var bounded = false;
     var modelBeingUpdated = false;
     
     
     
-    public func bind(object: NSObject, keyPath: String, values: [Int: AnyObject]) -> BSegmentedControl {
+    open func bind(_ object: NSObject, keyPath: String, values: [Int: AnyObject]) -> BSegmentedControl {
         
         if bounded {
             return self
@@ -31,33 +31,33 @@ public class BSegmentedControl: UISegmentedControl, BControlProtocol {
         self.values = values
         
         // set value immediately when being bound
-        setValueFromModel(self.object.valueForKeyPath(keyPath))
+        setValueFromModel(self.object.value(forKeyPath: keyPath) as AnyObject?)
         
-        self.object.addObserver(self, forKeyPath: keyPath, options: .New, context: &segmentedControlContext)
-        self.addTarget(self, action: #selector(BSegmentedControl.valueChanged), forControlEvents: .ValueChanged)
+        self.object.addObserver(self, forKeyPath: keyPath, options: .new, context: &segmentedControlContext)
+        self.addTarget(self, action: #selector(BSegmentedControl.valueChanged), for: .valueChanged)
         self.bounded = true
         return self
     }
     
     
-    public func unbind() {
+    open func unbind() {
         // ui component needs to be unbound before managed object becomes invalid
         if bounded {
             self.object.removeObserver(self, forKeyPath: keyPath)
-            self.removeTarget(self, action: #selector(BSegmentedControl.valueChanged), forControlEvents: .ValueChanged)
+            self.removeTarget(self, action: #selector(BSegmentedControl.valueChanged), for: .valueChanged)
             bounded = false
         }
     }
 
     
-    func setValueFromComponent(value: Int) {
+    func setValueFromComponent(_ value: Int) {
         modelBeingUpdated = true;
         self.object.setValue(values[value], forKeyPath: self.keyPath)
         modelBeingUpdated = false;
     }
     
     
-    func setValueFromModel(value: AnyObject?) {
+    func setValueFromModel(_ value: AnyObject?) {
         if value != nil {
             // get key based on value -> this key is segmeted control index
             for (key, valueDict) in values {
@@ -75,13 +75,13 @@ public class BSegmentedControl: UISegmentedControl, BControlProtocol {
     }
     
     
-    public override func observeValueForKeyPath(keyPath: String?, ofObject object: AnyObject?, change: [String : AnyObject]?, context: UnsafeMutablePointer<Void>) {
+    open override func observeValue(forKeyPath keyPath: String?, of object: Any?, change: [NSKeyValueChangeKey : Any]?, context: UnsafeMutableRawPointer?) {
         
         if modelBeingUpdated {
             return
         }
         if context == &segmentedControlContext && self.object.isEqual(object) {
-            setValueFromModel(change?[NSKeyValueChangeNewKey])
+            setValueFromModel(change?[NSKeyValueChangeKey.newKey] as AnyObject?)
         }
     }
 

@@ -5,18 +5,18 @@
 import Foundation
 import UIKit
 
-public class BTextField: UITextField, BControlProtocol  {
+open class BTextField: UITextField, BControlProtocol  {
     
     
     var object: NSObject!
     var keyPath: String!
-    var formatter: NSFormatter?
-    private var bounded = false;
-    var modelBeingUpdated = false;
+    var formatter: Formatter?
+    open var bounded = false
+    var modelBeingUpdated = false
     
     
     
-    public func bind(object: NSObject, keyPath: String, formatter: NSFormatter? = nil, placeholder: Bool? = false) -> BTextField {
+    open func bind(_ object: NSObject, keyPath: String, formatter: Formatter? = nil, placeholder: Bool? = false) -> BTextField {
         
         if bounded {
             return self
@@ -26,21 +26,21 @@ public class BTextField: UITextField, BControlProtocol  {
         self.keyPath = keyPath
         self.formatter = formatter
         // set value immediately when being bound
-        setValueFromModel(object.valueForKeyPath(keyPath), placeholder: placeholder)
+        setValueFromModel(object.value(forKeyPath: keyPath) as AnyObject?, placeholder: placeholder)
         
-        self.object.addObserver(self, forKeyPath: keyPath, options: [.New, .Old], context: nil)
-        self.addTarget(self, action: #selector(BTextField.valueChanged), forControlEvents: .EditingChanged)
+        self.object.addObserver(self, forKeyPath: keyPath, options: [.new, .old], context: nil)
+        self.addTarget(self, action: #selector(BTextField.valueChanged), for: .editingChanged)
         self.bounded = true 
         
         return self
     }
     
     
-    public func unbind() {
+    open func unbind() {
         // ui component needs to be unbound before managed object becomes invalid
         if bounded {
             self.object.removeObserver(self, forKeyPath: keyPath)
-            self.removeTarget(self, action: #selector(BTextField.valueChanged), forControlEvents: .ValueChanged)
+            self.removeTarget(self, action: #selector(BTextField.valueChanged), for: .valueChanged)
             bounded = false
         }
     }
@@ -51,15 +51,15 @@ public class BTextField: UITextField, BControlProtocol  {
     }
     
     
-    func setValueFromComponent(value: String?) {
+    func setValueFromComponent(_ value: String?) {
         modelBeingUpdated = true;
-        let value = value != nil ? value!.stringByTrimmingCharactersInSet(NSCharacterSet.whitespaceCharacterSet()) : ""
+        let value = value != nil ? value!.trimmingCharacters(in: CharacterSet.whitespaces) : ""
         self.object.setValue(value, forKeyPath: self.keyPath)  // primitive setters must not be used
         modelBeingUpdated = false
     }
     
     
-    func setValueFromModel(value: AnyObject?, placeholder: Bool? = false) {
+    func setValueFromModel(_ value: AnyObject?, placeholder: Bool? = false) {
         if (placeholder != nil && placeholder == true && value != nil) {
             self.placeholder = value as? String
         } else {
@@ -68,14 +68,15 @@ public class BTextField: UITextField, BControlProtocol  {
     }
     
     
-    override public func observeValueForKeyPath(keyPath: String?, ofObject object: AnyObject?, change: [String : AnyObject]?, context: UnsafeMutablePointer<Void>) {
+    override open func observeValue(forKeyPath keyPath: String?, of object: Any?, change: [NSKeyValueChangeKey : Any]?, context: UnsafeMutableRawPointer?) {
         
-        if modelBeingUpdated {
+        let change = change?[NSKeyValueChangeKey.newKey]
+        
+        guard !modelBeingUpdated && !(change is NSNull) else {
             return
         }
-        if self.object.isEqual(object) {
-            setValueFromModel(change?[NSKeyValueChangeNewKey])
-        }
+
+        setValueFromModel(change as AnyObject?)
     }
     
 }
