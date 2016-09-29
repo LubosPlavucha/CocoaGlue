@@ -8,7 +8,7 @@ import UIKit
 open class BDatePickerTextField: BTextField {
     
     
-    open var listener : BDatePickerTextFieldProtocol?
+    open weak var listener : BDatePickerTextFieldProtocol?
     fileprivate var datePicker: UIDatePicker!
     
     

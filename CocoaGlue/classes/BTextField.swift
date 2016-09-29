@@ -8,7 +8,7 @@ import UIKit
 open class BTextField: UITextField, BControlProtocol  {
     
     
-    var object: NSObject!
+    weak var object: NSObject!
     var keyPath: String!
     var formatter: Formatter?
     open var bounded = false
@@ -59,7 +59,7 @@ open class BTextField: UITextField, BControlProtocol  {
         // ui component needs to be unbound before managed object becomes invalid
         if bounded {
             self.object.removeObserver(self, forKeyPath: keyPath)
-            self.removeTarget(self, action: #selector(BTextField.valueChanged), for: .valueChanged)
+            self.removeTarget(self, action: #selector(BTextField.valueChanged), for: .editingChanged)
             bounded = false
         }
     }

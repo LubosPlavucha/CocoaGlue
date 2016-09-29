@@ -8,7 +8,7 @@
 
 import Foundation
 
-public protocol BDatePickerTextFieldProtocol {
+public protocol BDatePickerTextFieldProtocol: class {
     
     
      func dateChanged()

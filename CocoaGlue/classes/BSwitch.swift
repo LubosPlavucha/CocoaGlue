@@ -9,7 +9,7 @@ import UIKit
 open class BSwitch: UISwitch, BControlProtocol {
     
     
-    fileprivate var object: NSObject!
+    fileprivate weak var object: NSObject!
     fileprivate var keyPath: String!
     fileprivate var bounded = false;
     

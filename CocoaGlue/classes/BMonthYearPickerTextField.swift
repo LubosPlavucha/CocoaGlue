@@ -8,7 +8,7 @@ open class BMonthYearPickerTextField: BTextField, UIPickerViewDelegate, UIPicker
     fileprivate var monthYearPicker: UIPickerView!
     fileprivate var years: [Int] = []
     fileprivate let yearsCount = 20
-    open var listener : BDatePickerTextFieldProtocol?
+    open weak var listener : BDatePickerTextFieldProtocol?
     
     
     

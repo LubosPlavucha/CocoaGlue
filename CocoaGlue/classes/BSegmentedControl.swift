@@ -12,7 +12,7 @@ private var segmentedControlContext = 0
 open class BSegmentedControl: UISegmentedControl, BControlProtocol {
     
     
-    fileprivate var object: NSObject!
+    fileprivate weak var object: NSObject!
     fileprivate var keyPath: String!
     fileprivate var values = [Int: AnyObject]()
     fileprivate var bounded = false;
