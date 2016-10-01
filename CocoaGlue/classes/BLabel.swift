@@ -6,13 +6,21 @@ import Foundation
 import UIKit
 
 
-open class BLabel: UILabel, BControlProtocol {
+open class BLabel: UILabel, BControl {
 
     
     fileprivate weak var object: NSObject!
     fileprivate var keyPath: String!
     fileprivate var bounded = false;
     
+    
+    open var validationFailed = false
+    open var delegates: [BControlDelegate] = []
+    
+    
+    deinit {
+        delegates.removeAll()
+    }
     
     
     open func bind(_ object: NSObject, keyPath: String) -> BLabel {
@@ -57,6 +65,10 @@ open class BLabel: UILabel, BControlProtocol {
         if self.object.isEqual(object) {
             setValueFromModel(change?[NSKeyValueChangeKey.newKey] as? String)
         }
+    }
+    
+    public func validate() {
+        
     }
 
 }

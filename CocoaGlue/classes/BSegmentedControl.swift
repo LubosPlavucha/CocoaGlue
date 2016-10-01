@@ -9,7 +9,7 @@ import UIKit
 private var segmentedControlContext = 0
 
 
-open class BSegmentedControl: UISegmentedControl, BControlProtocol {
+open class BSegmentedControl: UISegmentedControl, BControl {
     
     
     fileprivate weak var object: NSObject!
@@ -18,6 +18,14 @@ open class BSegmentedControl: UISegmentedControl, BControlProtocol {
     fileprivate var bounded = false;
     var modelBeingUpdated = false;
     
+    
+    open var validationFailed = false
+    open var delegates: [BControlDelegate] = []
+
+    
+    deinit {
+        delegates.removeAll()
+    }
     
     
     open func bind(_ object: NSObject, keyPath: String, values: [Int: AnyObject]) -> BSegmentedControl {
@@ -83,6 +91,11 @@ open class BSegmentedControl: UISegmentedControl, BControlProtocol {
         if context == &segmentedControlContext && self.object.isEqual(object) {
             setValueFromModel(change?[NSKeyValueChangeKey.newKey] as AnyObject?)
         }
+    }
+    
+    
+    public func validate() {
+        
     }
 
 }

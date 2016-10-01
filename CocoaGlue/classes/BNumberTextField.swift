@@ -8,8 +8,15 @@ import UIKit
 open class BNumberTextField: BTextField {
     
     
+    open var valueGreaterThan: NSDecimalNumber?
+    open var validationMessageOnGreaterThan = ""
+    open var validationMessageOnWrongFormat = ""
+    
+    
     
     override func initProperties() {
+        super.initProperties()
+        
         self.keyboardType = .numberPad
         
         // add toolbar with custom buttons
@@ -94,6 +101,35 @@ open class BNumberTextField: BTextField {
     
     func getDefaultValue() -> NSNumber {
         return 0
+    }
+    
+    
+    override public func validate() {
+        
+        super.validate()
+        
+        if self.text == nil || self.text!.trimmingCharacters(in: CharacterSet.whitespaces).isEmpty || self.validationFailed {
+            return  // return if there is no text or if the validation is failing already in super class
+        }
+        
+        // validate minimal/maximal value
+        let value = numberFromString(self.text!)
+        
+        if value == nil {
+            
+            // wrong number format
+            self.validationFailed = true
+            self.validationErrorLook = fieldBeingLeft ? true : false    // set validation error look only if the user is going to leave the field
+            self.validationMessage = validationMessageOnGreaterThan
+            
+        } else if valueGreaterThan != nil && (value?.compare(valueGreaterThan!) == .orderedSame || value?.compare(valueGreaterThan!) == .orderedAscending) {
+            
+            // the actual value must be greater than the specified value; execute this validation on the input field leave, because it's not a good practice to execute this kind of validation on every text change
+            
+            self.validationFailed = true
+            self.validationErrorLook = fieldBeingLeft ? true : false    // set validation error look only if the user is going to leave the field
+            self.validationMessage = validationMessageOnGreaterThan
+        }
     }
 
 }

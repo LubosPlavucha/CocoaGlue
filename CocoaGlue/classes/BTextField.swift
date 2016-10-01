@@ -5,14 +5,34 @@
 import Foundation
 import UIKit
 
-open class BTextField: UITextField, BControlProtocol  {
+open class BTextField: UITextField, BControl  {
     
     
     weak var object: NSObject!
     var keyPath: String!
-    var formatter: Formatter?
+    open var formatter: Formatter?
     open var bounded = false
     var modelBeingUpdated = false
+    
+    // --- validation properties ---------------------
+    
+    open var required = false
+    open var minimalTextLength: Int?
+    open var maximalTextLength: Int?
+    
+    /** Marks the validation status of the field. */
+    open var validationFailed = false
+    open var validationMessage = ""    
+    /** Message to be displayed if the 'required' validation fails. To be set by the calling code. */
+    open var validationMessageOnRequired = ""
+    
+    var validationErrorLook = false
+    var valueBeingChanged = false
+    var fieldBeingLeft = false
+    
+    open var delegates: [BControlDelegate] = []
+    
+    // --- end of validation properties --------------
     
     
     override init(frame: CGRect) {
@@ -27,6 +47,16 @@ open class BTextField: UITextField, BControlProtocol  {
     
     
     func initProperties() {
+        //always add listeners for changes from the GUI
+        self.addTarget(self, action: #selector(BTextField.valueChanged), for: .editingChanged)
+        self.addTarget(self, action: #selector(BTextField.fieldEndEditing), for: .editingDidEnd)
+    }
+    
+    
+    deinit {
+        self.delegates.removeAll()
+        self.removeTarget(self, action: #selector(BTextField.valueChanged), for: .editingChanged)
+        self.removeTarget(self, action: #selector(BTextField.fieldEndEditing), for: .editingDidEnd)
     }
     
     
@@ -46,9 +76,6 @@ open class BTextField: UITextField, BControlProtocol  {
         // add listener for changes from the model
         self.object.addObserver(self, forKeyPath: keyPath, options: [.new, .old], context: nil)
         
-        // add listener for changes from the user
-        self.addTarget(self, action: #selector(BTextField.valueChanged), for: .editingChanged)
-        
         self.bounded = true 
         
         return self
@@ -59,21 +86,66 @@ open class BTextField: UITextField, BControlProtocol  {
         // ui component needs to be unbound before managed object becomes invalid
         if bounded {
             self.object.removeObserver(self, forKeyPath: keyPath)
-            self.removeTarget(self, action: #selector(BTextField.valueChanged), for: .editingChanged)
             bounded = false
         }
     }
     
     
     func valueChanged() {
-        setValueFromComponent(self.text)
+        
+        valueBeingChanged = true
+        
+        validate()
+        
+        if self.validationErrorLook  {
+            setValidationErrorLook()
+        } else {
+            removeValidationErrorLook()
+        }
+        
+        if !self.validationFailed {
+            setValueFromComponent(self.text)
+        }
+
+        for delegate in delegates {
+            delegate.validationStateCheck(self.validationFailed)
+        }
+        
+        valueBeingChanged = false
+    }
+    
+    
+    func fieldEndEditing() {
+        
+        fieldBeingLeft = true
+        
+        validate()
+        
+        if self.validationErrorLook  {
+            setValidationErrorLook()
+        } else {
+            removeValidationErrorLook()
+        }
+        
+        for delegate in delegates {
+            delegate.validationStateCheck(self.validationFailed)
+        }
+        
+        fieldBeingLeft = false
     }
     
     
     func setValueFromComponent(_ value: String?) {
-        modelBeingUpdated = true;
+        
+        if !bounded {
+            return
+        }
+        
+        modelBeingUpdated = true
+        
         let value = value != nil ? value!.trimmingCharacters(in: CharacterSet.whitespaces) : ""
         self.object.setValue(value, forKeyPath: self.keyPath)  // primitive setters must not be used
+        
         modelBeingUpdated = false
     }
     
@@ -96,6 +168,41 @@ open class BTextField: UITextField, BControlProtocol  {
         }
 
         setValueFromModel(change as AnyObject?)
+    }
+    
+    
+    /** Performs the validation. The function is to be overriden/extended by subclasses to include additional validations. Returns the string currently being entered in the field. */
+    public func validate() {
+        
+        if self.text == nil {
+            return
+        }
+        
+        // clear
+        self.validationFailed = false
+        self.validationErrorLook = false
+        self.validationMessage = ""
+        
+        // validate required
+        if required && text!.trimmingCharacters(in: CharacterSet.whitespaces).isEmpty {
+            
+            self.validationFailed = true
+            self.validationErrorLook = true
+            self.validationMessage = validationMessageOnRequired
+        }        
+    }
+    
+    
+    fileprivate func setValidationErrorLook() {
+        
+        self.layer.borderWidth = 1
+        self.layer.borderColor = UIColor.red.cgColor
+        self.layer.cornerRadius = 5.0
+    }
+    
+    
+    fileprivate func removeValidationErrorLook() {
+        self.layer.borderColor = UIColor.clear.cgColor
     }
     
 }

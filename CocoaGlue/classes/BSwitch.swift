@@ -6,13 +6,21 @@ import Foundation
 import UIKit
 
 
-open class BSwitch: UISwitch, BControlProtocol {
+open class BSwitch: UISwitch, BControl {
     
     
     fileprivate weak var object: NSObject!
     fileprivate var keyPath: String!
     fileprivate var bounded = false;
     
+    
+    open var validationFailed = false
+    open var delegates: [BControlDelegate] = []
+    
+    
+    deinit {
+        delegates.removeAll()
+    }
     
     
     open func bind(_ object: NSObject, keyPath: String) -> BSwitch {
@@ -65,6 +73,11 @@ open class BSwitch: UISwitch, BControlProtocol {
         if self.object.isEqual(object) {
             setValueFromModel(change?[NSKeyValueChangeKey.newKey] as? NSNumber)
         }
+    }
+    
+    
+    public func validate() {
+        
     }
     
 }

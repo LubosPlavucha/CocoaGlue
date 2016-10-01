@@ -7,7 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		6B4EBF681A9BDE640088D730 /* BControlProtocol.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6B4EBF5F1A9BDE640088D730 /* BControlProtocol.swift */; };
+		6B4EBF681A9BDE640088D730 /* BControl.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6B4EBF5F1A9BDE640088D730 /* BControl.swift */; };
 		6B4EBF6A1A9BDE640088D730 /* BDatePickerTextField.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6B4EBF601A9BDE640088D730 /* BDatePickerTextField.swift */; };
 		6B4EBF6C1A9BDE640088D730 /* BDecimalTextField.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6B4EBF611A9BDE640088D730 /* BDecimalTextField.swift */; };
 		6B4EBF6E1A9BDE640088D730 /* BLabel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6B4EBF621A9BDE640088D730 /* BLabel.swift */; };
@@ -16,12 +16,14 @@
 		6B4EBF741A9BDE640088D730 /* BSegmentedControl.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6B4EBF651A9BDE640088D730 /* BSegmentedControl.swift */; };
 		6B4EBF761A9BDE640088D730 /* BSwitch.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6B4EBF661A9BDE640088D730 /* BSwitch.swift */; };
 		6B4EBF781A9BDE640088D730 /* BTextField.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6B4EBF671A9BDE640088D730 /* BTextField.swift */; };
+		6B61764E1D9FE18400FB654F /* BControlDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6B61764D1D9FE18400FB654F /* BControlDelegate.swift */; };
+		6B61766F1DA044BF00FB654F /* BAlphanumericTextField.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6B61766E1DA044BF00FB654F /* BAlphanumericTextField.swift */; };
 		6B7D2E101AF804580000CB24 /* BDatePickerTextFieldProtocol.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6B7D2E0F1AF804580000CB24 /* BDatePickerTextFieldProtocol.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
 		6B4958E31A4CB09900C113E2 /* CocoaGlue.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = CocoaGlue.framework; sourceTree = BUILT_PRODUCTS_DIR; };
-		6B4EBF5F1A9BDE640088D730 /* BControlProtocol.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = BControlProtocol.swift; path = CocoaGlue/classes/BControlProtocol.swift; sourceTree = SOURCE_ROOT; };
+		6B4EBF5F1A9BDE640088D730 /* BControl.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = BControl.swift; path = CocoaGlue/classes/BControl.swift; sourceTree = SOURCE_ROOT; };
 		6B4EBF601A9BDE640088D730 /* BDatePickerTextField.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = BDatePickerTextField.swift; path = CocoaGlue/classes/BDatePickerTextField.swift; sourceTree = SOURCE_ROOT; };
 		6B4EBF611A9BDE640088D730 /* BDecimalTextField.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = BDecimalTextField.swift; path = CocoaGlue/classes/BDecimalTextField.swift; sourceTree = SOURCE_ROOT; };
 		6B4EBF621A9BDE640088D730 /* BLabel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = BLabel.swift; path = CocoaGlue/classes/BLabel.swift; sourceTree = SOURCE_ROOT; };
@@ -31,6 +33,8 @@
 		6B4EBF661A9BDE640088D730 /* BSwitch.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = BSwitch.swift; path = CocoaGlue/classes/BSwitch.swift; sourceTree = SOURCE_ROOT; };
 		6B4EBF671A9BDE640088D730 /* BTextField.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = BTextField.swift; path = CocoaGlue/classes/BTextField.swift; sourceTree = SOURCE_ROOT; };
 		6B4EBF811A9BDED40088D730 /* Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; name = Info.plist; path = CocoaGlue/Info.plist; sourceTree = SOURCE_ROOT; };
+		6B61764D1D9FE18400FB654F /* BControlDelegate.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = BControlDelegate.swift; path = CocoaGlue/classes/BControlDelegate.swift; sourceTree = SOURCE_ROOT; };
+		6B61766E1DA044BF00FB654F /* BAlphanumericTextField.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = BAlphanumericTextField.swift; path = CocoaGlue/classes/BAlphanumericTextField.swift; sourceTree = SOURCE_ROOT; };
 		6B7D2E0F1AF804580000CB24 /* BDatePickerTextFieldProtocol.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = BDatePickerTextFieldProtocol.swift; path = CocoaGlue/classes/BDatePickerTextFieldProtocol.swift; sourceTree = SOURCE_ROOT; };
 /* End PBXFileReference section */
 
@@ -74,7 +78,7 @@
 		6B4959111A4CB0EB00C113E2 /* classes */ = {
 			isa = PBXGroup;
 			children = (
-				6B4EBF5F1A9BDE640088D730 /* BControlProtocol.swift */,
+				6B4EBF5F1A9BDE640088D730 /* BControl.swift */,
 				6B4EBF601A9BDE640088D730 /* BDatePickerTextField.swift */,
 				6B4EBF611A9BDE640088D730 /* BDecimalTextField.swift */,
 				6B4EBF621A9BDE640088D730 /* BLabel.swift */,
@@ -84,6 +88,8 @@
 				6B4EBF661A9BDE640088D730 /* BSwitch.swift */,
 				6B4EBF671A9BDE640088D730 /* BTextField.swift */,
 				6B7D2E0F1AF804580000CB24 /* BDatePickerTextFieldProtocol.swift */,
+				6B61764D1D9FE18400FB654F /* BControlDelegate.swift */,
+				6B61766E1DA044BF00FB654F /* BAlphanumericTextField.swift */,
 			);
 			path = classes;
 			sourceTree = "<group>";
@@ -171,8 +177,10 @@
 				6B7D2E101AF804580000CB24 /* BDatePickerTextFieldProtocol.swift in Sources */,
 				6B4EBF741A9BDE640088D730 /* BSegmentedControl.swift in Sources */,
 				6B4EBF6A1A9BDE640088D730 /* BDatePickerTextField.swift in Sources */,
+				6B61766F1DA044BF00FB654F /* BAlphanumericTextField.swift in Sources */,
+				6B61764E1D9FE18400FB654F /* BControlDelegate.swift in Sources */,
 				6B4EBF6E1A9BDE640088D730 /* BLabel.swift in Sources */,
-				6B4EBF681A9BDE640088D730 /* BControlProtocol.swift in Sources */,
+				6B4EBF681A9BDE640088D730 /* BControl.swift in Sources */,
 				6B4EBF761A9BDE640088D730 /* BSwitch.swift in Sources */,
 				6B4EBF781A9BDE640088D730 /* BTextField.swift in Sources */,
 				6B4EBF701A9BDE640088D730 /* BMonthYearPickerTextField.swift in Sources */,
