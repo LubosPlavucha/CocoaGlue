@@ -25,6 +25,7 @@ open class BSegmentedControl: UISegmentedControl, BControl {
     
     deinit {
         delegates.removeAll()
+        self.removeTarget(nil, action: nil, for: .allEvents)    // this should remove all the targets, incl. those set from outside of this class 
     }
     
     
@@ -52,7 +53,6 @@ open class BSegmentedControl: UISegmentedControl, BControl {
         // ui component needs to be unbound before managed object becomes invalid
         if bounded {
             self.object.removeObserver(self, forKeyPath: keyPath)
-            self.removeTarget(self, action: #selector(BSegmentedControl.valueChanged), for: .valueChanged)
             bounded = false
         }
     }

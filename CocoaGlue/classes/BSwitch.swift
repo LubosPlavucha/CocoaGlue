@@ -20,6 +20,7 @@ open class BSwitch: UISwitch, BControl {
     
     deinit {
         delegates.removeAll()
+        self.removeTarget(nil, action: nil, for: .allEvents)    // this should remove all the targets, incl. those set from outside of this class 
     }
     
     
@@ -46,7 +47,6 @@ open class BSwitch: UISwitch, BControl {
     open func unbind() {
         // ui component needs to be unbound
         if bounded {
-            self.removeTarget(self, action: #selector(BSwitch.valueChanged), for: .valueChanged)
             self.object.removeObserver(self, forKeyPath: keyPath)
             bounded = false
         }

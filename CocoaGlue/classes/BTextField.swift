@@ -47,7 +47,7 @@ open class BTextField: UITextField, BControl  {
     
     
     func initProperties() {
-        //always add listeners for changes from the GUI
+        // always add listeners for changes from the GUI
         self.addTarget(self, action: #selector(BTextField.valueChanged), for: .editingChanged)
         self.addTarget(self, action: #selector(BTextField.fieldEndEditing), for: .editingDidEnd)
     }
@@ -55,8 +55,7 @@ open class BTextField: UITextField, BControl  {
     
     deinit {
         self.delegates.removeAll()
-        self.removeTarget(self, action: #selector(BTextField.valueChanged), for: .editingChanged)
-        self.removeTarget(self, action: #selector(BTextField.fieldEndEditing), for: .editingDidEnd)
+        self.removeTarget(nil, action: nil, for: .allEvents)    // this should remove all the targets, incl. those set from outside of this class 
     }
     
     
@@ -85,9 +84,15 @@ open class BTextField: UITextField, BControl  {
     open func unbind() {
         // ui component needs to be unbound before managed object becomes invalid
         if bounded {
+            // TODO check if it is possible to remove this automatically, e.g. in deinit or listens the managed object deinitialization and remove myself at that time -> this will remove the need to call this function form the client code !!!
             self.object.removeObserver(self, forKeyPath: keyPath)
             bounded = false
         }
+    }
+    
+    
+    open func getBoundedObject() -> NSObject {
+        return object
     }
     
     
@@ -151,6 +156,7 @@ open class BTextField: UITextField, BControl  {
     
     
     func setValueFromModel(_ value: AnyObject?, placeholder: Bool? = false) {
+        
         if (placeholder != nil && placeholder == true && value != nil) {
             self.placeholder = value as? String
         } else {
